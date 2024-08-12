@@ -3,7 +3,7 @@
     name: MyGroup
     state: present
   register: fail_no_scope
-  failed_when: fail_no_scope.msg != "scope must be set when state=present and the group does not exist"
+  failed_when: fail_no_scope.msg is defined and fail_no_scope.msg != "scope must be set when state=present and the group does not exist"
 
 - name: create group - check
   group:
