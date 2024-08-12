@@ -14,7 +14,7 @@
   check_mode: true
 
 - name: get result of create group - check
-  object_info:
+  microsoft.ad.object_info:
     identity: '{{ create_group_check.distinguished_name }}'
   register: create_group_check_actual
 
@@ -38,7 +38,7 @@
     object_identity: '{{ create_group.object_guid }}'
 
 - name: get result of create group
-  object_info:
+  microsoft.ad.object_info:
     identity: '{{ object_identity }}'
     properties:
     - groupType
@@ -77,7 +77,7 @@
   register: add_member_to_builtin
 
 - name: get result of add member to builtin group
-  object_info:
+  microsoft.ad.object_info:
     identity: '{{ add_member_to_builtin.object_guid }}'
     properties:
     - member
@@ -99,7 +99,7 @@
   register: remove_member_from_builtin
 
 - name: get result of add member to builtin group
-  object_info:
+  microsoft.ad.object_info:
     identity: '{{ add_member_to_builtin.object_guid }}'
     properties:
     - member
@@ -167,7 +167,7 @@
     check_mode: true
 
   - name: get result of add members to a group - check
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - member
@@ -191,7 +191,7 @@
     register: add_member
 
   - name: get result of add members to a group
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - member
@@ -233,7 +233,7 @@
     register: remove_member
 
   - name: get result of remove member from a group
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - member
@@ -274,7 +274,7 @@
     register: add_remove_member
 
   - name: get result of add and remove members from a group
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - member
@@ -300,7 +300,7 @@
     register: set_member
 
   - name: get result of set members
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - member
@@ -338,7 +338,7 @@
     register: unset_member
 
   - name: get result of unset all members
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - member
@@ -371,7 +371,7 @@
     check_mode: true
 
   - name: get result of remove group - check
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
     register: remove_group_check_actual
 
@@ -388,7 +388,7 @@
     register: remove_group
 
   - name: get result of remove group
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
     register: remove_group_actual
 
@@ -449,7 +449,7 @@
       object_identity: '{{ group_custom.object_guid }}'
 
   - name: get result of create group with custom options
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - Description
@@ -520,7 +520,7 @@
     register: group_edit
 
   - name: get result of edit group
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - Description
@@ -557,7 +557,7 @@
     register: edit_scope
 
   - name: get result of edit group scope and category
-    object_info:
+    microsoft.ad.object_info:
       identity: '{{ object_identity }}'
       properties:
       - groupType
