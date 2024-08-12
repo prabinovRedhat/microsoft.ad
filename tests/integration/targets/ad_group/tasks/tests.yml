@@ -1,3 +1,7 @@
+- name: debug fail_no_scope
+  debug:
+    var: fail_no_scope
+    
 - name: fail to create group without scope
   group:
     name: MyGroup
