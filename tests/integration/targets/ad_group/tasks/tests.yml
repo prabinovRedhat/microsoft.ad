@@ -112,7 +112,7 @@
     - create_group.distinguished_name not in remove_member_from_builtin_actual.objects[0].member
 
 - name: create ou to store group members
-  ou:
+  microsoft.ad.ou:
     name: MyOU
     state: present
   register: ou_info
@@ -571,7 +571,7 @@
 
   always:
   - name: remove test ou
-    ou:
+    microsoft.ad.ou:
       name: MyOU
       state: absent
       identity: '{{ ou_info.object_guid }}'
