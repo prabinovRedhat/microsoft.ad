@@ -1,8 +1,8 @@
-- name: ensure the ActiveDirectory module is installed
-  ansible.windows.win_feature:
-    name:
-    - RSAT-AD-PowerShell
-    state: present
+# - name: ensure the ActiveDirectory module is installed
+#   ansible.windows.win_feature:
+#     name:
+#     - RSAT-AD-PowerShell
+#     state: present
 
 - name: check if domain is already set up
   domain:
