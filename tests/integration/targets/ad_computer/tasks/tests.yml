@@ -1,5 +1,5 @@
 - name: create computer - check
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: present
   register: create_comp_check
@@ -20,7 +20,7 @@
     - create_comp_check_actual.objects == []
 
 - name: create computer
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: present
   register: create_comp
@@ -54,7 +54,7 @@
     - '"ADS_UF_ACCOUNTDISABLE" not in create_comp_actual.objects[0].userAccountControl_AnsibleFlags'
 
 - name: remove computer - check
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: absent
   register: remove_comp_check
@@ -72,7 +72,7 @@
     - remove_comp_check_actual.objects | length == 1
 
 - name: remove computer
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: absent
   register: remove_comp
@@ -89,7 +89,7 @@
     - remove_comp_actual.objects == []
 
 - name: remove computer - idempotent
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: absent
   register: remove_comp_again
@@ -100,7 +100,7 @@
     - not remove_comp_again is changed
 
 - name: expect failure with invalid DN lookup entry - no name
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: present
     delegates:
@@ -112,7 +112,7 @@
     invalid_dn_lookup_no_name.msg != "Failed to find the AD object DNs for delegates.set. Identity entry does not contain the required name key."
 
 - name: expect failure with invalid DN lookup entry - extra keys
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: present
     delegates:
@@ -125,7 +125,7 @@
     invalid_dn_lookup_extra_keys.msg != "Failed to find the AD object DNs for delegates.add. Identity entry for 'name' contains extra keys: 'invalid1', 'invalid2'."
 
 - name: create computer with custom options
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     state: present
     delegates:
@@ -211,7 +211,7 @@
     - custom_comp_delegates.output == ["administrator", "krbtgt"]
 
 - name: change computer with custom options
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     delegates:
@@ -281,7 +281,7 @@
     - change_comp_delegates.output == ["krbtgt"]
 
 - name: fail with invalid delegate identity
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     delegates:
@@ -292,7 +292,7 @@
     invalid_delegate.msg != "Failed to find the AD object DNs for delegates.set. Invalid identities: 'CN=Missing," ~ setup_domain_info.output[0].defaultNamingContext ~ "'"
 
 - name: add and remove list options
-  computer:
+  microsoft.ad.computer:
     identity: MyComputer2
     delegates:
       add:
@@ -341,7 +341,7 @@
     - add_remove_list_delegation.output == ["administrator"]
 
 - name: add and remove list options - idempotent
-  computer:
+  microsoft.ad.computer:
     identity: MyComputer2$
     delegates:
       add:
@@ -362,7 +362,7 @@
     - not add_remove_list_again is changed
 
 - name: unset list options
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     delegates:
@@ -388,7 +388,7 @@
     - unset_list_options_actual.objects[0]['msDS-SupportedEncryptionTypes_AnsibleFlags'] == ["None"]
 
 - name: unset list options - idempotent
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     delegates:
@@ -403,7 +403,7 @@
     - not unset_list_options_again is changed
 
 - name: set spns
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     spn:
@@ -427,7 +427,7 @@
     - spn_set_actual.objects[0].servicePrincipalName == ['HTTP/host.domain:8080', 'HTTP/host.domain', 'HTTP/host']
 
 - name: remove spns
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     spn:
@@ -450,7 +450,7 @@
     - spn_remove_actual.objects[0].servicePrincipalName == ['HTTP/host.domain:8080', 'HTTP/host']
 
 - name: add spns
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     path: CN=Users,{{ setup_domain_info.output[0].defaultNamingContext }}
     spns:
@@ -473,12 +473,12 @@
     - spn_add_actual.objects[0].servicePrincipalName == ['HTTP/fake', 'HTTP/host.domain:8080', 'HTTP/host']
 
 - name: remove computer before sAMAccountName tests
-  computer:
+  microsoft.ad.computer:
     identity: '{{ object_identity }}'
     state: absent
 
 - name: create computer without sAMAccountName $ suffix - check mode
-  computer:
+  microsoft.ad.computer:
     identity: MyComputer
     sam_account_name: MyComputer
     do_not_append_dollar_to_sam: true
@@ -500,7 +500,7 @@
     - create_comp_no_sam_check_actual.objects == []
 
 - name: create computer without sAMAccountName $ suffix
-  computer:
+  microsoft.ad.computer:
     identity: MyComputer
     sam_account_name: MyComputer
     do_not_append_dollar_to_sam: true
@@ -524,7 +524,7 @@
     - create_comp_no_sam_actual.objects[0].sAMAccountName == 'MyComputer'
 
 - name: create computer without sAMAccountName $ suffix - idempotent
-  computer:
+  microsoft.ad.computer:
     identity: MyComputer
     sam_account_name: MyComputer
     do_not_append_dollar_to_sam: true
@@ -537,7 +537,7 @@
     - not create_comp_no_sam_again is changed
 
 - name: change computer without sAMAccountName $ suffix - check mode
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     sam_account_name: MyComputerFoo
     do_not_append_dollar_to_sam: true
@@ -559,7 +559,7 @@
     - change_comp_no_sam_check_actual.objects[0].sAMAccountName == 'MyComputer'
 
 - name: change computer without sAMAccountName $ suffix
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     sam_account_name: MyComputerFoo
     do_not_append_dollar_to_sam: true
@@ -580,7 +580,7 @@
     - change_comp_no_sam_actual.objects[0].sAMAccountName == 'MyComputerFoo'
 
 - name: change computer without sAMAccountName $ suffix - idempotent
-  computer:
+  microsoft.ad.computer:
     name: MyComputer
     sam_account_name: MyComputerFoo
     do_not_append_dollar_to_sam: true
@@ -593,7 +593,7 @@
     - not change_comp_no_sam_again is changed
 
 - name: find computer by identity sAMAccountName without $ suffix
-  computer:
+  microsoft.ad.computer:
     identity: MyComputerFoo
     display_name: Test
     state: present
